@@ -88,7 +88,7 @@ This project is a web-based application that extracts key details from multiple 
 
 💡 If you have any questions or feedback, feel free to reach out!
 
--📧 Email: karthikbrinfpro@gmail.com
+-📧 Email: karthikbrinfopro@gmail.com
 
 -🔗 GitHub: https://github.com/Robbin808
 
