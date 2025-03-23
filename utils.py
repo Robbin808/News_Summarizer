@@ -43,3 +43,17 @@ def analyze_sentiment(text):
         return "Negative"
     else:
         return "Neutral"
+    
+def compare_sentiments(articles):
+    """
+    Compares sentiment distribution across multiple news articles.
+    Returns a summary of positive, negative, and neutral counts.
+    """
+    sentiment_counts = {"Positive": 0, "Negative": 0, "Neutral": 0}
+
+    for article in articles:
+        sentiment = analyze_sentiment(article["summary"])
+        sentiment_counts[sentiment] += 1
+
+    return sentiment_counts
+
