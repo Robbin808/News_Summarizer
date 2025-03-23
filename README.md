@@ -3,6 +3,10 @@
 ## 📖 Overview
 This project is a web-based application that extracts key details from multiple news articles related to a given company, performs sentiment analysis, conducts a comparative analysis, and generates a text-to-speech (TTS) output in Hindi.
 
+
+![68747470733a2f2f692e7974696d672e636f6d2f76692f39506f4b656c6c4e7242632f6d617872657364656661756c742e6a7067](https://github.com/user-attachments/assets/454c6699-7b60-484a-a2f6-21f54d513958)
+
+
 ## 🛠️ Project Setup
 ### Prerequisites
 - Python 3.7+
@@ -59,6 +63,15 @@ This project is a web-based application that extracts key details from multiple 
 ## 🚀 Deployment
 - The application is deployed on Hugging Face Spaces. https://huggingface.co/spaces/karthik808/News_Summarizer
 - ✅ The app will open in your browser at http://localhost:8501
+  
+
+## 🖼️ Snapshots:
+  
+![Screenshot (91)](https://github.com/user-attachments/assets/1cdb18d6-d2a0-4ee8-a423-a17fc95f1202)
+
+
+![Screenshot (92)](https://github.com/user-attachments/assets/b7501dc5-6e1f-4582-9970-4641ca422ad3)
+
 
 
 ## 🙌 Acknowledgments
