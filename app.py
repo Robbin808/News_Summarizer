@@ -1,4 +1,4 @@
-from utils import get_news_articles, analyze_sentiment, compare_sentiments
+from utils import get_news_articles, analyze_sentiment, compare_sentiments,generate_tts
 
 if __name__ == "__main__":
     company_name = input("Enter company name: ")
@@ -16,7 +16,8 @@ if __name__ == "__main__":
             print(f"   {article['url']}\n")
 
         # Perform comparative sentiment analysis
-        sentiment_summary = compare_sentiments(news)
+        sentiment_summary = compare_sentiments(news, company_name)
+
 
         print("\nComparative Sentiment Analysis Report:")
         print(f"Sentiment Distribution: {sentiment_summary['Sentiment Distribution']}")
@@ -24,8 +25,12 @@ if __name__ == "__main__":
         
         print("\nKey Insights:")
         final_sentiment = ""
-        
+
         for insight in sentiment_summary["Insights"]:
             print(f"- {insight}")  # Print all insights properly
-            final_sentiment += insight + " "  # Ensure all insights are combined
+            final_sentiment += insight + " "  #   to Ensure all insights are combined
+
+        # Convert insights to Hindi speech
+        generate_tts(final_sentiment, "final_sentiment.mp3")
+        print("\n Hindi audio generated: final_sentiment.mp3")
  

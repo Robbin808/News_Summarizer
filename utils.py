@@ -1,13 +1,16 @@
 import requests 
 from textblob import TextBlob
 from collections import Counter
+from gtts import gTTS
+from deep_translator import GoogleTranslator
+import os
 
 def get_news_articles(query):
     """
     Fetches news articles using NewsAPI.
     Returns a list of dictionaries containing title, summary, and URL.
     """
-    API_KEY = "f804905478b34ede96743c3f80d11df3"  # Replace with your API key
+    API_KEY = "f804905478b34ede96743c3f80d11df3"  
     url = f"https://newsapi.org/v2/everything?q={query}&apiKey={API_KEY}"
 
     try:
@@ -45,7 +48,7 @@ def analyze_sentiment(text):
     else:
         return "Neutral"
 
-def compare_sentiments(articles):
+def compare_sentiments(articles,company_name):
     """
     Performs comparative sentiment analysis and generates insights.
     """
@@ -77,24 +80,20 @@ def compare_sentiments(articles):
     top_positive_topics = [word for word, count in positive_words.most_common(5)]
     top_negative_topics = [word for word, count in negative_words.most_common(5)]
 
-    # Find common and unique topics
-    common_topics = list(set(positive_topics.keys()) & set(negative_topics.keys()))
-    unique_positive_topics = list(set(positive_topics.keys()) - set(negative_topics.keys()))
-    unique_negative_topics = list(set(negative_topics.keys()) - set(positive_topics.keys()))
-
+ 
     # Generate insights based on sentiment distribution and trends
     insights = []
 
     if sentiment_counts["Positive"] > sentiment_counts["Negative"]:
-        insights.append("The company's news coverage is mostly positive, reflecting strong market confidence.")
+        insights.append(f"{company_name} news coverage is mostly positive, reflecting strong market confidence.")
         if top_positive_topics:
-            insights.append(f"Key positive themes in recent news include: {', '.join(top_positive_topics)}.")
+            insights.append(f"Key positive themes for {company_name}: {', '.join(top_positive_topics)}.")
     elif sentiment_counts["Negative"] > sentiment_counts["Positive"]:
-        insights.append("The company is facing more negative news coverage, indicating potential challenges or controversies.")
+        insights.append(f"{company_name} is facing more negative news coverage, indicating potential challenges or controversies.")
         if top_negative_topics:
             insights.append(f"Key negative themes in recent news include: {', '.join(top_negative_topics)}.")
     else:
-        insights.append("The company's news coverage is balanced, with equal amounts of positive and negative sentiment.")
+        insights.append(f"{company_name} news coverage is balanced, with equal amounts of positive and negative sentiment.")
 
     # Comparative Analysis: Identify Contrasting News Trends
     if sentiment_groups["Positive"] and sentiment_groups["Negative"]:
@@ -113,5 +112,25 @@ def compare_sentiments(articles):
         "Dominant Sentiment": dominant_sentiment,
         "Insights": insights
     }
+def generate_tts(text, filename="final_sentiment.mp3"):
+    """
+    Converts the given text to speech in Hindi and saves it as an MP3 file.
+    """
+    if not text.strip():
+        print(" No insights to convert to speech.")
+        return
+
+        # Translate to Hindi
+    translated_text = GoogleTranslator(source="auto", target="hi").translate(text)
     
+    print(f"🔹 Translated Text: {translated_text}")  
+
+    # Convert Hindi text to speech
+    tts = gTTS(text=translated_text, lang="hi")
+    tts.save(filename)
+
+    print(f" Hindi audio saved as {filename}")
+
+    # Play the audio file automatically
+    os.system(f"start {filename}")
 
