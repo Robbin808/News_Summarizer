@@ -15,7 +15,7 @@ This project is a web-based application that extracts key details from multiple 
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/Robbin808/News_Summarizer.git
-   cd <repository-directory>
+   cd Robbin808/News_Summarizer
    ```
 2. **Run the Flask API**:
    ```bash
