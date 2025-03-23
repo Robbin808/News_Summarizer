@@ -11,7 +11,7 @@ CORS(app)
 def home():
     return jsonify({"message": "Welcome to the News Summarization API!"})
 
-# 1️⃣ Fetch News Articles API
+# 1️ Fetch News Articles API
 @app.route("/fetch-news", methods=["GET"])
 def fetch_news():
     company_name = request.args.get("company")
@@ -22,7 +22,7 @@ def fetch_news():
     news = get_news_articles(company_name)
     return jsonify({"company": company_name, "articles": news})
 
-# 2️⃣ Sentiment Analysis API
+# 2️ Sentiment Analysis API
 @app.route("/analyze-sentiment", methods=["GET"])
 def analyze_news_sentiment():
     company_name = request.args.get("company")
@@ -39,7 +39,7 @@ def analyze_news_sentiment():
 
     return jsonify({"company": company_name, "articles": news})
 
-# 3️⃣ Comparative Analysis API
+# 3️ Comparative Analysis API
 @app.route("/compare-news", methods=["GET"])
 def compare_news():
     company_name = request.args.get("company")
