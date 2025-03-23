@@ -57,7 +57,27 @@ This project is a web-based application that extracts key details from multiple 
 - The TTS output is generated in Hindi and may have limitations in pronunciation and accuracy.
 
 ## 🚀 Deployment
-- The application is deployed on Hugging Face Spaces. Deployment Link
+- The application is deployed on Hugging Face Spaces. https://huggingface.co/spaces/karthik808/News_Summarizer
+- ✅ The app will open in your browser at http://localhost:8501
+
+
+## 🙌 Acknowledgments
+
+-Thanks to:
+
+**NewsAPI** :for providing real-time news data.
+
+**Streamlit** :for an interactive UI.
+
+**Google Translator** :API for Hindi translation.
+
+## 📩 Contact
+
+💡 If you have any questions or feedback, feel free to reach out!
+
+-📧 Email: karthikbrinfpro@gmail.com
+
+-🔗 GitHub: https://github.com/Robbin808
 
 ## 🏁 Conclusion
 This project provides a comprehensive solution for news summarization, sentiment analysis, and text-to-speech conversion. It offers valuable insights into the company's news coverage and presents the information in an accessible format.
