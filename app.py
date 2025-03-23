@@ -17,6 +17,15 @@ if __name__ == "__main__":
 
         # Perform comparative sentiment analysis
         sentiment_summary = compare_sentiments(news)
-        print("\nSentiment Analysis Summary:")
-        print(sentiment_summary)
+
+        print("\nComparative Sentiment Analysis Report:")
+        print(f"Sentiment Distribution: {sentiment_summary['Sentiment Distribution']}")
+        print(f"Dominant Sentiment: {sentiment_summary['Dominant Sentiment']}")
+        
+        print("\nKey Insights:")
+        final_sentiment = ""
+        
+        for insight in sentiment_summary["Insights"]:
+            print(f"- {insight}")  # Print all insights properly
+            final_sentiment += insight + " "  # Ensure all insights are combined
  

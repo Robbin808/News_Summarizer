@@ -1,5 +1,6 @@
 import requests 
 from textblob import TextBlob
+from collections import Counter
 
 def get_news_articles(query):
     """
@@ -43,17 +44,74 @@ def analyze_sentiment(text):
         return "Negative"
     else:
         return "Neutral"
-    
+
 def compare_sentiments(articles):
     """
-    Compares sentiment distribution across multiple news articles.
-    Returns a summary of positive, negative, and neutral counts.
+    Performs comparative sentiment analysis and generates insights.
     """
     sentiment_counts = {"Positive": 0, "Negative": 0, "Neutral": 0}
+    sentiment_groups = {"Positive": [], "Negative": [], "Neutral": []}
 
     for article in articles:
         sentiment = analyze_sentiment(article["summary"])
         sentiment_counts[sentiment] += 1
+        sentiment_groups[sentiment].append(article)
 
-    return sentiment_counts
+    # Identify dominant sentiment
+    dominant_sentiment = max(sentiment_counts, key=sentiment_counts.get)
+
+    # Extract topics from positive and negative news
+    positive_topics = Counter()
+    negative_topics = Counter()
+    # Extract common words/themes from positive and negative news
+    positive_words = Counter()
+    negative_words = Counter()
+
+    for article in sentiment_groups["Positive"]:
+        positive_topics.update(article["title"].split())
+
+    for article in sentiment_groups["Negative"]:
+        negative_topics.update(article["title"].split())
+
+    # Identify most common topics in each sentiment group
+    top_positive_topics = [word for word, count in positive_words.most_common(5)]
+    top_negative_topics = [word for word, count in negative_words.most_common(5)]
+
+    # Find common and unique topics
+    common_topics = list(set(positive_topics.keys()) & set(negative_topics.keys()))
+    unique_positive_topics = list(set(positive_topics.keys()) - set(negative_topics.keys()))
+    unique_negative_topics = list(set(negative_topics.keys()) - set(positive_topics.keys()))
+
+    # Generate insights based on sentiment distribution and trends
+    insights = []
+
+    if sentiment_counts["Positive"] > sentiment_counts["Negative"]:
+        insights.append("The company's news coverage is mostly positive, reflecting strong market confidence.")
+        if top_positive_topics:
+            insights.append(f"Key positive themes in recent news include: {', '.join(top_positive_topics)}.")
+    elif sentiment_counts["Negative"] > sentiment_counts["Positive"]:
+        insights.append("The company is facing more negative news coverage, indicating potential challenges or controversies.")
+        if top_negative_topics:
+            insights.append(f"Key negative themes in recent news include: {', '.join(top_negative_topics)}.")
+    else:
+        insights.append("The company's news coverage is balanced, with equal amounts of positive and negative sentiment.")
+
+    # Comparative Analysis: Identify Contrasting News Trends
+    if sentiment_groups["Positive"] and sentiment_groups["Negative"]:
+        first_positive_title = sentiment_groups["Positive"][0]["title"]
+        first_negative_title = sentiment_groups["Negative"][0]["title"]
+
+        insights.append(f"Example contrast: '{first_positive_title}' focuses on company success, whereas '{first_negative_title}' highlights a challenge.")
+
+    # Debugging: Print all insights to verify correctness
+    print("\n🔍 DEBUG: Generated Insights")
+    for i, insight in enumerate(insights, 1):
+        print(f"{i}. {insight}")
+
+    return {
+        "Sentiment Distribution": sentiment_counts,
+        "Dominant Sentiment": dominant_sentiment,
+        "Insights": insights
+    }
+    
 
