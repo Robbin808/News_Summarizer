@@ -1,37 +1,45 @@
 import streamlit as st
-from utils import get_news_articles, analyze_sentiment, compare_sentiments,generate_tts
+from utils import get_news_articles, analyze_sentiment, compare_sentiments, generate_tts
 
-if __name__ == "__main__":
-    company_name = input("Enter company name: ")
+# Step 1: Set up the Streamlit app
+st.title("News Summarization and Sentiment Analysis")
+st.write("Enter a company name to get the latest news and sentiment analysis.")
+
+# Step 2: Get user input
+company_name = st.text_input("Enter a company name:")
+
+if company_name:
+    # Fetch News Articles
+    st.subheader(f"News Articles about {company_name}:")
     news = get_news_articles(company_name)
-
-    if not news:
-        print("No news articles found.")
-    else:
-        print("\nNews Articles with Sentiment Analysis:\n")
+    
+    if news:
         for i, article in enumerate(news, 1):
             sentiment = analyze_sentiment(article["summary"])
-            print(f"{i}. {article['title']}")
-            print(f"   Sentiment: {sentiment}")
-            print(f"   {article['summary']}")
-            print(f"   {article['url']}\n")
-
-        # Perform comparative sentiment analysis
+            st.write(f"{i}. **{article['title']}**")
+            st.write(f"   Sentiment: {sentiment}")
+            st.write(f"   {article['summary']}")
+            st.write(f"   [Read Full Article]({article['url']})")
+            st.markdown("---")
+        
+        # Perform Comparative Sentiment Analysis
         sentiment_summary = compare_sentiments(news, company_name)
 
-
-        print("\nComparative Sentiment Analysis Report:")
-        print(f"Sentiment Distribution: {sentiment_summary['Sentiment Distribution']}")
-        print(f"Dominant Sentiment: {sentiment_summary['Dominant Sentiment']}")
+        # Display Sentiment Distribution and Insights
+        st.subheader(f"Comparative Sentiment Analysis for {company_name}")
+        st.write(f"Sentiment Distribution: {sentiment_summary['Sentiment Distribution']}")
+        st.write(f"Dominant Sentiment: {sentiment_summary['Dominant Sentiment']}")
         
-        print("\nKey Insights:")
-        final_sentiment = ""
-
+        st.write("### Key Insights:")
         for insight in sentiment_summary["Insights"]:
-            print(f"- {insight}")  # Print all insights properly
-            final_sentiment += insight + " "  #   to Ensure all insights are combined
+            st.write(f"- {insight}")
+        
+        # Button to Generate TTS
+        if st.button("Play audio for Insights"):
+            final_sentiment = " ".join(sentiment_summary["Insights"])
+            generate_tts(final_sentiment, "final_sentiment.mp3")
+            st.audio("final_sentiment.mp3")  # Display the generated audio file for playback
+            st.success("Hindi audio generated successfully!")
+    else:
+        st.error("No news articles found.")
 
-        # Convert insights to Hindi speech
-        generate_tts(final_sentiment, "final_sentiment.mp3")
-        print("\n Hindi audio generated: final_sentiment.mp3")
- 

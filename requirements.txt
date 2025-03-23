@@ -1,2 +1,8 @@
 Requests 
-bs4
+streamlit
+beautifulsoup4
+requests
+textblob
+gTTS
+Flask
+googletrans

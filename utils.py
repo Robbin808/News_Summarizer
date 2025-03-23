@@ -1,4 +1,4 @@
-import requests 
+import requests
 from textblob import TextBlob
 from collections import Counter
 from gtts import gTTS
@@ -10,15 +10,15 @@ def get_news_articles(query):
     Fetches news articles using NewsAPI.
     Returns a list of dictionaries containing title, summary, and URL.
     """
-    API_KEY = "f804905478b34ede96743c3f80d11df3"  
+    API_KEY = "f804905478b34ede96743c3f80d11df3"  # Replace with your API key
     url = f"https://newsapi.org/v2/everything?q={query}&apiKey={API_KEY}"
 
     try:
-        response = requests.get(url)
-        response.raise_for_status()
+        response = requests.get(url)  # Request to fetch the news
+        response.raise_for_status()  # Raise an exception for bad responses (4xx, 5xx)
 
-        data = response.json()
-        articles = []
+        data = response.json()  # Parse the JSON response
+        articles = []  # Store the articles
 
         for item in data.get("articles", [])[:10]:  # Get the first 10 articles
             articles.append({
@@ -48,7 +48,7 @@ def analyze_sentiment(text):
     else:
         return "Neutral"
 
-def compare_sentiments(articles,company_name):
+def compare_sentiments(articles, company_name):
     """
     Performs comparative sentiment analysis and generates insights.
     """
@@ -63,12 +63,9 @@ def compare_sentiments(articles,company_name):
     # Identify dominant sentiment
     dominant_sentiment = max(sentiment_counts, key=sentiment_counts.get)
 
-    # Extract topics from positive and negative news
+    # Extract common words/themes from positive and negative news
     positive_topics = Counter()
     negative_topics = Counter()
-    # Extract common words/themes from positive and negative news
-    positive_words = Counter()
-    negative_words = Counter()
 
     for article in sentiment_groups["Positive"]:
         positive_topics.update(article["title"].split())
@@ -77,21 +74,16 @@ def compare_sentiments(articles,company_name):
         negative_topics.update(article["title"].split())
 
     # Identify most common topics in each sentiment group
-    top_positive_topics = [word for word, _ in positive_words.most_common(5)]
-    top_negative_topics = [word for word, _ in negative_words.most_common(5)]
+    top_positive_topics = [word for word, _ in positive_topics.most_common(5)]
+    top_negative_topics = [word for word, _ in negative_topics.most_common(5)]
 
- 
     # Generate insights based on sentiment distribution and trends
     insights = []
 
     if sentiment_counts["Positive"] > sentiment_counts["Negative"]:
         insights.append(f"{company_name}'s news coverage is mostly positive, reflecting strong market confidence.")
-        if top_positive_topics:
-            insights.append(f"Key positive themes for {company_name}: {', '.join(top_positive_topics)}.")
     elif sentiment_counts["Negative"] > sentiment_counts["Positive"]:
         insights.append(f"{company_name} is facing more negative news coverage, indicating potential challenges or controversies.")
-        if top_negative_topics:
-            insights.append(f"Key negative themes in recent news include: {', '.join(top_negative_topics)}.")
     else:
         insights.append(f"{company_name}'s news coverage is balanced, with equal amounts of positive and negative sentiment.")
 
@@ -102,28 +94,24 @@ def compare_sentiments(articles,company_name):
 
         insights.append(f"Example contrast: '{first_positive_title}' focuses on company success, whereas '{first_negative_title}' highlights a challenge.")
 
-    # Debugging: Print all insights to verify correctness
-    print("\n DEBUG: Generated Insights")
-    for i, insight in enumerate(insights, 1):
-        print(f"{i}. {insight}")
-
     return {
         "Sentiment Distribution": sentiment_counts,
         "Dominant Sentiment": dominant_sentiment,
         "Insights": insights
     }
+
 def generate_tts(text, filename="final_sentiment.mp3"):
     """
     Converts the given text to speech in Hindi and saves it as an MP3 file.
     """
     if not text.strip():
-        print(" No insights to convert to speech.")
+        print("No insights to convert to speech.")
         return
 
-        # Translate to Hindi
+    # Translate to Hindi
     translated_text = GoogleTranslator(source="auto", target="hi").translate(text)
     
-    print(f"🔹 Translated Text: {translated_text}")  
+    print(f"Translated Text: {translated_text}")  
 
     # Convert Hindi text to speech
     tts = gTTS(text=translated_text, lang="hi")
@@ -133,4 +121,3 @@ def generate_tts(text, filename="final_sentiment.mp3"):
 
     # Play the audio file automatically
     os.system(f"start {filename}")
-

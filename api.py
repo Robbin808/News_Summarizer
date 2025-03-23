@@ -1,5 +1,5 @@
-from flask import Flask, request, jsonify
-from utils import get_news_articles, analyze_sentiment, compare_sentiments
+from flask import Flask, request, jsonify,send_file
+from utils import get_news_articles, analyze_sentiment, compare_sentiments,generate_tts
 
 app = Flask(__name__)
 
@@ -57,3 +57,22 @@ def compare_news():
 # Run API
 if __name__ == "__main__":
     app.run(debug=True)
+
+# to get audio
+@app.route("/generate-tts", methods=["GET"])
+def generate_tts_api():
+    text = request.args.get("text")
+    
+    if not text:
+        return jsonify({"error": "No text provided for TTS"}), 400
+
+    filename = generate_tts(text)
+    
+    if filename:
+        return send_file(filename, mimetype="audio/mp3")
+    else:
+        return jsonify({"error": "TTS generation failed"}), 500
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
