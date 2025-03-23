@@ -57,17 +57,29 @@ API Setup (Optional)
 The application uses APIs for the frontend and backend communication. Ensure that the API is properly set up if needed.
 
 File Structure
+
 graphql
+
 Copy
+
 Edit
+
 News_Summarizer/
+
 │
+
 ├── app.py                  # Main script for Streamlit web app
+
 ├── requirements.txt        # List of project dependencies
+
 ├── utils.py                # Utility functions (e.g., news extraction, sentiment analysis)
+
 ├── api.py                  # API support for communication between frontend and backend
+
 └── README.txt              # Project documentation
+
 API Usage
+
 The communication between the frontend and backend is managed via APIs. Use Postman or other API testing tools to check the API endpoints. Make sure to follow the API documentation provided in api.py to interact with the backend.
 
 Deployment
