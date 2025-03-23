@@ -77,8 +77,8 @@ def compare_sentiments(articles,company_name):
         negative_topics.update(article["title"].split())
 
     # Identify most common topics in each sentiment group
-    top_positive_topics = [word for word, count in positive_words.most_common(5)]
-    top_negative_topics = [word for word, count in negative_words.most_common(5)]
+    top_positive_topics = [word for word, _ in positive_words.most_common(5)]
+    top_negative_topics = [word for word, _ in negative_words.most_common(5)]
 
  
     # Generate insights based on sentiment distribution and trends
