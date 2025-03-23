@@ -1,3 +1,4 @@
+import streamlit as st
 from utils import get_news_articles, analyze_sentiment, compare_sentiments,generate_tts
 
 if __name__ == "__main__":

@@ -85,7 +85,7 @@ def compare_sentiments(articles,company_name):
     insights = []
 
     if sentiment_counts["Positive"] > sentiment_counts["Negative"]:
-        insights.append(f"{company_name} news coverage is mostly positive, reflecting strong market confidence.")
+        insights.append(f"{company_name}'s news coverage is mostly positive, reflecting strong market confidence.")
         if top_positive_topics:
             insights.append(f"Key positive themes for {company_name}: {', '.join(top_positive_topics)}.")
     elif sentiment_counts["Negative"] > sentiment_counts["Positive"]:
@@ -93,7 +93,7 @@ def compare_sentiments(articles,company_name):
         if top_negative_topics:
             insights.append(f"Key negative themes in recent news include: {', '.join(top_negative_topics)}.")
     else:
-        insights.append(f"{company_name} news coverage is balanced, with equal amounts of positive and negative sentiment.")
+        insights.append(f"{company_name}'s news coverage is balanced, with equal amounts of positive and negative sentiment.")
 
     # Comparative Analysis: Identify Contrasting News Trends
     if sentiment_groups["Positive"] and sentiment_groups["Negative"]:
