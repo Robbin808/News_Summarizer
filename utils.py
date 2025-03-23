@@ -104,7 +104,7 @@ def compare_sentiments(articles):
         insights.append(f"Example contrast: '{first_positive_title}' focuses on company success, whereas '{first_negative_title}' highlights a challenge.")
 
     # Debugging: Print all insights to verify correctness
-    print("\n🔍 DEBUG: Generated Insights")
+    print("\n DEBUG: Generated Insights")
     for i, insight in enumerate(insights, 1):
         print(f"{i}. {insight}")
 
